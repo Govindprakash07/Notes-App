@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <h1>📝 Notes App</h1>
+    <a href="/add">➕ Add New Note</a>
+    <div class="notes">
+        <% notes.forEach(note => { %>
+            <div class="note">
+                <h2><%= note.title %></h2>
+                <p><%= note.content %></p>
+                <a href="/edit/<%= note._id %>">✏️ Edit</a>
+                <a href="/delete/<%= note._id %>" onclick="return confirm('Are you sure?')">❌ Delete</a>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>
