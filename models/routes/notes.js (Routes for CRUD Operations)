@@ -1,0 +1,45 @@
+const express = require("express");
+const Note = require("../models/Note");
+
+const router = express.Router();
+
+// Home - Show Notes
+router.get("/", async (req, res) => {
+    const notes = await Note.find();
+    res.render("index", { notes });
+});
+
+// Add Note Page
+router.get("/add", (req, res) => {
+    res.render("addNote");
+});
+
+// Handle Add Note
+router.post("/add", async (req, res) => {
+    const newNote = new Note({
+        title: req.body.title,
+        content: req.body.content
+    });
+    await newNote.save();
+    res.redirect("/");
+});
+
+// Edit Note Page
+router.get("/edit/:id", async (req, res) => {
+    const note = await Note.findById(req.params.id);
+    res.render("editNote", { note });
+});
+
+// Handle Edit Note
+router.post("/edit/:id", async (req, res) => {
+    await Note.findByIdAndUpdate(req.params.id, { title: req.body.title, content: req.body.content });
+    res.redirect("/");
+});
+
+// Delete Note
+router.get("/delete/:id", async (req, res) => {
+    await Note.findByIdAndDelete(req.params.id);
+    res.redirect("/");
+});
+
+module.exports = router;
